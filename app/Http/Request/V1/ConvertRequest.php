@@ -8,7 +8,6 @@ use App\Application\Conversation\DTO\ConversationRequestDTO;
 use App\Infrastructure\Currency\Currency;
 use Currency\InvalidCurrencyException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class ConvertRequest extends V1Request
 {
@@ -37,7 +36,8 @@ class ConvertRequest extends V1Request
             throw new BadRequestHttpException('Cannot convert in same currency');
         }
 
-        if ($currencyFrom->getCode() !== 'BTC' && $currencyTo->getCode() !== 'BTC') {
+        if ($currencyFrom->getCode() !== Currency::CURRENCY_BTC
+            && $currencyTo->getCode() !== Currency::CURRENCY_BTC) {
             throw new BadRequestHttpException('BTC must be present in from or to currency parameter');
         }
 

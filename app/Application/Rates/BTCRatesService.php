@@ -43,7 +43,7 @@ class BTCRatesService
             }
         }
 
-        throw new UnprocessableEntityHttpException('Rate not found');
+        throw new UnprocessableEntityHttpException("Rate not found for currency {$currency}");
     }
 
     /**

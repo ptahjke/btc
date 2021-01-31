@@ -8,6 +8,8 @@ use Currency\InvalidCurrencyException;
 
 class Currency implements \JsonSerializable
 {
+    public const CURRENCY_BTC = 'BTC';
+
     private string $code;
     private int $numericCode;
     private int $minorUnit;
@@ -28,7 +30,7 @@ class Currency implements \JsonSerializable
             throw new InvalidCurrencyException('customMinorUnit cannot be less than zero.');
         }
 
-        if ('BTC' === $currencyCode) {
+        if (self::CURRENCY_BTC === $currencyCode) {
             $this->isBTC = true;
             $this->precision = 10;
         }
@@ -290,7 +292,7 @@ class Currency implements \JsonSerializable
         'XPT' => ['numericCode' => 962, 'minorUnit' => 0],
         'XAG' => ['numericCode' => 961, 'minorUnit' => 0],
         // хак для быстрого решения
-        'BTC' => ['numericCode' => 888, 'minorUnit' => 0],
+        self::CURRENCY_BTC => ['numericCode' => 888, 'minorUnit' => 0],
     ];
 
 }
