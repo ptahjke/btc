@@ -10,3 +10,4 @@
 get http://localhost:8001/api/v1?method=rates&currency=USD
 post http://localhost:8001/api/v1 + body params
 ```
+запрос в файле query.sql
