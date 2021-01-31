@@ -23,11 +23,7 @@ class ConvertRequest extends V1Request
         ];
     }
 
-    /**
-     * @return ConversationRequestDTO
-     * @throws InvalidCurrencyException
-     */
-    public function getConversationRequestDTO(): ConversationRequestDTO
+    public function validateResolved()
     {
         $currencyFrom = new Currency($this->post('currency_from'));
         $currencyTo = new Currency($this->post('currency_to'));
@@ -40,10 +36,17 @@ class ConvertRequest extends V1Request
             && $currencyTo->getCode() !== Currency::CURRENCY_BTC) {
             throw new BadRequestHttpException('BTC must be present in from or to currency parameter');
         }
+    }
 
+    /**
+     * @return ConversationRequestDTO
+     * @throws InvalidCurrencyException
+     */
+    public function getConversationRequestDTO(): ConversationRequestDTO
+    {
         return new ConversationRequestDTO(
-            $currencyFrom,
-            $currencyTo,
+            new Currency($this->post('currency_from')),
+            new Currency($this->post('currency_to')),
             (float) $this->post('value')
         );
     }
