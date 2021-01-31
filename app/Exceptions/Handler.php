@@ -12,9 +12,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -63,7 +65,9 @@ class Handler extends ExceptionHandler
             case $e instanceof NotFoundHttpException:
                 $message = 'Url not found';
                 break;
-            case $e instanceof AccessDeniedHttpException:
+            case $e instanceof AccessDeniedHttpException
+                || $e instanceof UnprocessableEntityHttpException
+                || $e instanceof BadRequestHttpException:
                 $message = $e->getMessage();
                 break;
             default:
