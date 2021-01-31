@@ -20,8 +20,10 @@ if (!isset($router)) {
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
 $router->group([
-    'namespace' => '',
+    'namespace' => 'V1',
+    'prefix' => 'api/v1',
     'middleware' => [
         Authenticate::class,
     ],

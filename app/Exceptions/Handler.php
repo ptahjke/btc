@@ -11,6 +11,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -62,12 +63,17 @@ class Handler extends ExceptionHandler
             case $e instanceof NotFoundHttpException:
                 $message = 'Url not found';
                 break;
+            case $e instanceof AccessDeniedHttpException:
+                $message = $e->getMessage();
+                break;
             default:
                 $message = 'Internal server error';
                 break;
         }
 
         return response()->json([
+            'status' => 'error',
+            'code' => $rendered->getStatusCode(),
             'message' => $message,
         ], $rendered->getStatusCode());
     }
