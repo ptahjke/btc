@@ -37,6 +37,10 @@ class ConvertRequest extends V1Request
             throw new BadRequestHttpException('Cannot convert in same currency');
         }
 
+        if ($currencyFrom->getCode() !== 'BTC' && $currencyTo->getCode() !== 'BTC') {
+            throw new BadRequestHttpException('BTC must be present in from or to currency parameter');
+        }
+
         return new ConversationRequestDTO(
             $currencyFrom,
             $currencyTo,
